@@ -37,8 +37,8 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(path.join(__dirname,"/api/posts", postsRoutes));
-app.use(path.join(__dirname,"/api/user", userRoutes));
+app.use("/api/posts", postsRoutes);
+app.use("/api/user", userRoutes);
 app.use((req, res, next) => {
   res.sendFile(path.join(__dirname, "angular", "index.html"));
 }); 
