@@ -3,12 +3,10 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "node server.js",
     "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e",
-    "start:server": "nodemon server.js"
+    "postinstall": "ng build --aot --prod",
+    "heroku-postbuild": "ng build --prod"
   },
   "private": true,
   "dependencies": {
@@ -30,9 +28,11 @@
     "mongoose": "^5.1.2",
     "mongoose-unique-validator": "^2.0.3",
     "multer": "^1.4.2",
+    "path": "^0.12.7",
     "rxjs": "^6.3.3",
     "rxjs-compat": "^6.3.3",
-    "zone.js": "^0.9.1"
+    "zone.js": "^0.9.1",
+    "typescript": "~2.3.3"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.800.0",
@@ -55,11 +55,15 @@
     "protractor": "~5.3.0",
     "ts-node": "~5.0.1",
     "tslint": "~5.9.1",
-    "typescript": "~3.4.5"
+    "typescript": "~2.3.3"
   },
   "description": "This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.1.",
   "main": "server.js",
   "keywords": [],
   "author": "daniel.bastos",
-  "license": "MIT"
+  "license": "MIT",
+  "engines": {
+    "node": "10.20.1",
+    "npm": "6.14.5"
+  }
 }
