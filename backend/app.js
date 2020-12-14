@@ -10,7 +10,7 @@ const app = express();
 
 mongoose
   .connect(
-    "mongodb://clicaqui:duck7776@ds123971.mlab.com:23971/udemy_class"
+    "mongodb+srv://mongoadmin:Duck7776@cluster0.kxou5.mongodb.net/udemy_class?retryWrites=true&w=majority", { useNewUrlParser: true }
   )
   .then(() => {
     console.log("Connected to database!");
