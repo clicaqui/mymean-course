@@ -10,7 +10,8 @@ const app = express();
 
 mongoose
   .connect(
-    "mongodb+srv://mongoadmin:Duck7776@cluster0.kxou5.mongodb.net/udemy_class?retryWrites=true&w=majority", { useNewUrlParser: true }
+    "mongodb+srv://mongoadmin:********@cluster0.kxou5.mongodb.net/udemy_class?retryWrites=true&w=majority",
+    { useNewUrlParser: true }
   )
   .then(() => {
     console.log("Connected to database!");
@@ -41,6 +42,6 @@ app.use("/api/posts", postsRoutes);
 app.use("/api/user", userRoutes);
 app.use((req, res, next) => {
   res.sendFile(path.join(__dirname, "angular", "index.html"));
-}); 
+});
 
 module.exports = app;

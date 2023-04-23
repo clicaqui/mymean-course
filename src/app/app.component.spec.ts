@@ -1,7 +1,7 @@
 import { PortalModule } from '@angular/cdk/portal';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHandler } from '@angular/common/http';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, getTestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAccordion, MatCardModule, MatExpansionPanel, MatExpansionPanelActionRow, MatExpansionPanelHeader, MatFormFieldModule, MatPaginatorModule, MatProgressSpinnerModule, MatToolbarModule } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -14,19 +14,24 @@ import { HeaderComponent } from './header/header.component';
 import { PostCreateComponent } from './posts/post-create/post-create.component';
 import { PostListComponent } from './posts/post-list/post-list.component';
 import { AuthService } from './auth/auth.service';
-import { Observable } from 'rxjs/Rx';
 import { PostsService } from './posts/posts.service';
 import { Router } from '@angular/router';
+import { DebugElement } from '@angular/core';
+import { ErrorComponent } from './error/error.component';
+
+
 
 
 describe('AppComponent', () => {
 
   let fixture: ComponentFixture<AppComponent>;
   let appComponent: AppComponent;
-  let component: AppComponent;
-  let fakeService: any;
-  let location: Location;
+  let de: DebugElement;
+  let errComponent: ComponentFixture<ErrorComponent>;
+  let fakeService: AuthService;
+  let spy: jasmine.Spy;
   let router: Router;
+  let element: HTMLElement;
   
   beforeEach((() => {
     TestBed.configureTestingModule({
@@ -41,7 +46,7 @@ describe('AppComponent', () => {
         MatExpansionPanelActionRow,
         MatExpansionPanel,
         MatAccordion,
-        
+      
       ], 
       imports: [
         AppRoutingModule,
@@ -64,45 +69,36 @@ describe('AppComponent', () => {
     router = TestBed.get(Router); 
       
     fixture = TestBed.createComponent(AppComponent);
-    appComponent = fixture.debugElement.componentInstance;
+    fakeService = fixture.debugElement.injector.get(AuthService);
 
-    router.initialNavigation(); 
-    //.compileComponents().then(() => {
-
-       fixture.detectChanges();
-      fakeService = jasmine.createSpyObj(fakeService,['getJoke']);
-
-      fakeService.getJoke.and.returnValue(Observable.of(true));
-      component = new AppComponent(fakeService); 
-   // });
+    appComponent = fixture.componentInstance;
+    
+    //ask fixture to detect changes
+    fixture.detectChanges();
+    // });
   })); 
   it('should create the app', (() => {
-
+    
     expect(appComponent).toBeTruthy();
   }));
-   it(` ngOnInit to have been called`, //inject([PostsService], (postService: PostsService) => {
+  it(` ngOnInit to have been called`, //inject([AuthService], (authService: AuthService) => {
     (() => {
-      //appComponent.ngOnInit();
-      /*const compiledDom = fixture.debugElement.nativeElement;
-      compiledDom.querySelector('p');
-      fixture.detectChanges();
-       fixture.whenStable().then(() => {
-        expect(compiledDom.textContent).toContain('MyMensagesLoginSignup');
-
-      }); */
-      
-      component.ngOnInit();
-      //component.ngOnDestroy();
-      expect(component.joke).toContain(false);
-     // expect(spyOn(component , 'ngOnDestroy')).toHaveBeenCalled();
-      //expect(fakeService.getJoke).toHaveBeenCalled();
+      appComponent.ngOnInit();
+      //expect(appComponent.getJoke()).toBeFalsy();
+     //expect(fakeService.getIsAuth()).toEqual(false);
+     // spy = spyOn(fakeService, 'getIsAuth').and.callThrough();
+     spy = spyOn(fakeService, 'getAuthStatusListener');
+      fakeService.getAuthStatusListener();
+      expect(fakeService.getAuthStatusListener).toHaveBeenCalled();
+      //expect(fakeService.getAuthStatusListener).toHaveBeenCalledWith(false);
     }
-  ));
+    ));
   it('should render title in a span tag', (() => {
-  
-   //const service = TestBed.get(PostsService);
-  
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('span').textContent).toContain('MyMensages');
-  })); 
-});
+/*       
+      de = fixture.debugElement.query(By.css('button'));
+      element = de.nativeElement; */
+      //errComponent = TestBed.createComponent(ErrorComponent);
+      const compiled = fixture.debugElement.nativeElement;
+      expect(compiled.querySelector('span').textContent).toContain('MyMensages');
+    })); 
+  });

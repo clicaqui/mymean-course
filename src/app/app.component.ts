@@ -12,5 +12,7 @@ export class AppComponent implements OnInit{
   ngOnInit() {
     this.authService.getAuthStatusListener();
   }
-
+  getJoke() {
+    this.joke = false;
+  }
 }
